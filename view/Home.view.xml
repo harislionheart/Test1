@@ -1,0 +1,295 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="complaint.controller.Home" 
+	xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" 
+	xmlns="sap.m" 
+	xmlns:l="sap.ui.layout"
+ 	xmlns:f="sap.ui.layout.form"
+	xmlns:smartForm="sap.ui.comp.smartform"
+	xmlns:smartField="sap.ui.comp.smartfield" 	
+	xmlns:core="sap.ui.core"
+	xmlns:ddb="sap.ui.commons.DropdownBox" 
+	>
+	<SplitApp id="HomeSplitApp" initialDetail="detail" initialMaster="master" orientationChange="onOrientationChange">
+		<masterPages>
+			<Page id="master" title="Complaints">
+				<subHeader>				
+					<Toolbar>
+						<SearchField
+							search="onSearch"
+							width="100%"																			
+							/>						
+					</Toolbar>
+				</subHeader>			
+				<content>															
+					<List id="ComplaintList" showNoData="false" items="{/ComplaintListSet}" updateFinished="onListUpdateFinished" 
+					busyIndicatorDelay="0" growing="true" growingScrollToLoad="true" 
+					>
+						<items>
+							<ObjectListItem id="masterListItem"
+							title="Complaint {ComplId}" intro="" type="Active" press="onListItemPress"
+							number="{ClaimPaid}" numberUnit="{ClaimPaidCurr}">
+							
+							<attributes>						
+								<ObjectAttribute text="{ComplSubject}" />
+								<ObjectAttribute text="" />																	
+								<ObjectAttribute text="Received on { path:'ComplRecvdt', formatter:'.formatterDate' }" />
+							</attributes>
+
+							<secondStatus>
+								<ObjectStatus text="{ComplStatusDesc}" />																
+							</secondStatus>
+							</ObjectListItem>														
+						</items>						
+					</List>
+				</content>
+			</Page>											
+		</masterPages>
+		
+		<detailPages>			
+			<Page id="detail" title="Complaints" class="sapUiStdPage" navButtonText="Back" navButtonPress="onPressDetailBack">						
+				<content>
+					<!-- Header -->
+					<ObjectHeader xmlns="sap.m" xmlns:sap.ui.core="sap.ui.core"
+						title="Complaint {ComplId}" responsive="true"
+						number="Claim Paid {ClaimPaid}"  numberUnit="{ClaimPaidCurr}"
+						intro="" icon="sap-icon://person-placeholder">
+						
+						<attributes>
+							<ObjectAttribute text="{ComplSubject}" />						 								 										
+						</attributes>
+													
+					</ObjectHeader>
+					<!-- end of Header -->
+					
+					<!-- Tab Bar -->
+					<IconTabBar
+						id="idIconTabBarMulti"						
+						class="sapUiResponsiveContentPadding"
+						selectedKey="IconTabInfo">
+						<items>
+							<IconTabFilter key="IconTabInfo"
+								icon="sap-icon://hint" text="Info">
+								<f:Form id="InfoForm">
+									<f:layout>
+										<f:ResponsiveLayout/>
+									</f:layout>
+									<f:formContainers>
+										<f:FormContainer>
+											<f:layoutData>
+												<l:ResponsiveFlowLayoutData linebreak="true" margin="false">
+												</l:ResponsiveFlowLayoutData>
+											</f:layoutData>
+											<f:formElements>								    
+												<f:FormElement>
+													<f:layoutData>
+														<l:ResponsiveFlowLayoutData linebreak="true" margin="false">
+														</l:ResponsiveFlowLayoutData>
+													</f:layoutData>
+													<f:label>
+														<Label text="Type">
+														</Label>
+													</f:label>
+													<f:fields>
+														<Text text="{ComplTypeDesc}">
+															<layoutData>
+																<l:ResponsiveFlowLayoutData alignItems="End" weight="{device>/infoTextWeight}">
+																</l:ResponsiveFlowLayoutData>
+															</layoutData>
+														</Text>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement>
+													<f:layoutData>
+														<l:ResponsiveFlowLayoutData linebreak="true" margin="false">
+														</l:ResponsiveFlowLayoutData>
+													</f:layoutData>
+													<f:label>
+														<Label text="Complaint No.">
+														</Label>
+													</f:label>
+													<f:fields>
+														<Text text="{ComplId}">
+															<layoutData>
+																<l:ResponsiveFlowLayoutData alignItems="End" weight="{device>/infoTextWeight}">
+																</l:ResponsiveFlowLayoutData>
+															</layoutData>
+														</Text>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement>
+													<f:layoutData>
+														<l:ResponsiveFlowLayoutData linebreak="true" margin="false">
+														</l:ResponsiveFlowLayoutData>
+													</f:layoutData>
+													<f:label>
+														<Label text="Complaint Received Date">
+														</Label>
+													</f:label>
+													<f:fields>
+														<Text text="{ path:'ComplRecvdt', formatter:'.formatterDate'}">
+															<layoutData>
+																<l:ResponsiveFlowLayoutData alignItems="End" weight="{device>/infoTextWeight}">
+																</l:ResponsiveFlowLayoutData>
+															</layoutData>
+														</Text>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement>
+													<f:layoutData>
+														<l:ResponsiveFlowLayoutData linebreak="true" margin="false">
+														</l:ResponsiveFlowLayoutData>
+													</f:layoutData>
+													<f:label>
+														<Label text="Supporting Data Received Date">
+														</Label>
+													</f:label>
+													<f:fields>
+														<Text text="{ path:'ComplSuppdt', formatter:'.formatterDate' }">
+															<layoutData>
+																<l:ResponsiveFlowLayoutData alignItems="End" weight="{device>/infoTextWeight}">
+																</l:ResponsiveFlowLayoutData>
+															</layoutData>
+														</Text>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement>
+													<f:layoutData>
+														<l:ResponsiveFlowLayoutData linebreak="true" margin="false">
+														</l:ResponsiveFlowLayoutData>
+													</f:layoutData>
+													<f:label>
+														<Label text="Status">
+														</Label>
+													</f:label>
+													<f:fields>
+														<Text text="{ComplStatusDesc}">
+															<layoutData>
+																<l:ResponsiveFlowLayoutData alignItems="End" weight="{device>/infoTextWeight}">
+																</l:ResponsiveFlowLayoutData>
+															</layoutData>
+														</Text>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement>
+													<f:layoutData>
+														<l:ResponsiveFlowLayoutData linebreak="true" margin="false">
+														</l:ResponsiveFlowLayoutData>
+													</f:layoutData>
+													<f:label>
+														<Label text="Initial Claim Value">
+														</Label>
+													</f:label>
+													<f:fields>
+														<Text text="{ClaimInitCurr} {ClaimInit}">
+															<layoutData>
+																<l:ResponsiveFlowLayoutData alignItems="End" weight="{device>/infoTextWeight}">
+																</l:ResponsiveFlowLayoutData>
+															</layoutData>
+														</Text>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement>
+													<f:layoutData>
+														<l:ResponsiveFlowLayoutData linebreak="true" margin="false">
+														</l:ResponsiveFlowLayoutData>
+													</f:layoutData>
+													<f:label>
+														<Label text="Claim Paid Value">
+														</Label>
+													</f:label>
+													<f:fields>
+														<Text text="{ClaimPaidCurr} {ClaimPaid}">
+															<layoutData>
+																<l:ResponsiveFlowLayoutData alignItems="End" weight="{device>/infoTextWeight}">
+																</l:ResponsiveFlowLayoutData>
+															</layoutData>
+														</Text>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement>
+													<f:layoutData>
+														<l:ResponsiveFlowLayoutData linebreak="true" margin="false">
+														</l:ResponsiveFlowLayoutData>
+													</f:layoutData>
+													<f:label>
+														<Label text="Claim Paid Date">
+														</Label>
+													</f:label>
+													<f:fields>
+														<Text text="{ClaimPaidDt}">
+															<layoutData>
+																<l:ResponsiveFlowLayoutData alignItems="End" weight="{device>/infoTextWeight}">
+																</l:ResponsiveFlowLayoutData>
+															</layoutData>
+														</Text>
+													</f:fields>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer>
+									</f:formContainers>
+								</f:Form>								
+							</IconTabFilter>
+							<IconTabFilter
+								icon="sap-icon://cart" text="Products">
+								<!-- Products -->
+								<Table id="TableProduct" inset="true"					            		
+													showNoData="false"										
+													items="{/ComplaintDetailSet}"
+													headerText=""
+													>
+					                <items>
+					                    <ColumnListItem>
+					                        <cells>                            
+					                            <ObjectIdentifier title="{ProdDescription}"></ObjectIdentifier>                                                        
+					                            <Label text="{ProdUomDisp}"></Label>
+					                            <Label text="{ClaimInit} {ClaimInitCurr}"></Label>
+					                            <Label text="{ClaimPaid} {ClaimPaidCurr}"></Label>                            							 							 																
+					                        </cells>
+					                    </ColumnListItem>
+					                </items>                               
+					                <columns>                    
+					                    <Column hAlign="Left" minScreenWidth="tablet" width="50%" demandPopin="true">
+					                        <header>
+					                            <Text text="Product" textAlign="Left" width="100%" maxLines="0"></Text>
+					                        </header>
+					                    </Column>
+					                    <Column hAlign="Left" minScreenWidth="tablet" width="15%" demandPopin="true">
+					                        <header>
+					                            <Text text="Quantity" textAlign="Left" width="100%" maxLines="0"></Text>
+					                        </header>
+					                    </Column>					                    					                   
+										<Column hAlign="Left" minScreenWidth="tablet" width="15%" demandPopin="true">
+					                        <header>
+					                            <Text text="Initial Claim Value" textAlign="Left" width="100%" maxLines="0"></Text>
+					                        </header>
+					                    </Column>                    							
+					                    <Column hAlign="Left" minScreenWidth="tablet" width="15%" demandPopin="true">
+					                        <header>
+					                            <Text text="Claim Paid Value" textAlign="Left" width="100%" maxLines="0"></Text>
+					                        </header>
+					                    </Column>
+					                </columns>
+					            </Table>					
+								<!-- end of Detail (Inquiry) -->								
+							</IconTabFilter>							
+							<IconTabFilter
+								icon="sap-icon://group" text="Participants">															
+								<List										
+								headerText="Participant">
+									<items>
+									<StandardListItem
+										title="{CpName}"
+										description="Contact Person"
+										icon="sap-icon://person-placeholder"
+										iconDensityAware="false"
+										iconInset="false" />
+									</items>
+								</List>							
+							</IconTabFilter>
+						</items>
+					</IconTabBar>									
+					<!-- end of Tab Bar -->							
+				</content>				
+			</Page>										
+		</detailPages>
+	</SplitApp>
+</mvc:View>
