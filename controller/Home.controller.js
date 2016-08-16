@@ -21,7 +21,7 @@ sap.ui.define([
 			if (!result) {
 				jQuery.sap.log.info("SplitApp object can't be found");
 			}
-			return result;
+			return result; 
 		},		
 		
 		onInit: function(){								 				
@@ -117,8 +117,10 @@ sap.ui.define([
 		         
 				 this.getSplitAppObj().toDetail(this.createId("detail"));	
 			}		
+					
 			this.getView().byId("master").setBusy(false);
-			this.getView().byId("detail").setBusy(false);
+			this.getView().byId("detail").setBusy(false);	
+		
 		},		
 		
 		onListItemPress : function(oEvent) {
